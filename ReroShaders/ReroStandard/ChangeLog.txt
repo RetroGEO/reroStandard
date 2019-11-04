@@ -1,0 +1,85 @@
+Changelog:
+
+1.0.7.b
+Stereo corrected stylized specular.
+Fixed updater.
+
+1.0.7a
+Fixes various minor issues and a major one involving non important light attenuation.
+
+1.0.7
+Includes the "Advanced Channel Settings" features for each workflow
+This allows you to select the channel that is read per map per PBR property enabling the use of packed texture maps
+Test these out and let me know if something's wrong. Thanks
+Re-implemented parralax relief mapping for height
+
+
+1.0.6b
+Fixed EVERYTHING ambient/diffuse related (for real this time)
+Added support for scruffy's stupid vertex lights
+Fixed my dumb implementation of reflection dimming causing attenuation to go haywire
+Moved bits of code around to the include files where they actually belong instead of everything being in the BRDF one
+Fixed my editor (again)
+
+1.0.6a*
+The "back to standard" update
+Seeks to return the look of the shader in all cases to as close to standard as possible while retaining the fixes I've implemented over the shaders lifetime.
+It's basically a re-work of a previous public version that resembled standard a lot more closely.
+*I somehow reverted the diffuse banding fix so that's back as of now.
+
+1.0.5b
+Fixed light attenuation causing colored directional lighting to be read as shadow.
+Fixed point lights being generally scuffed and not showing up.
+Laughed at Scruffy's vertex lights.
+Fixed "dusty stereo lighting" bug in VR
+
+1.0.5
+Fixed rim light and glossy reflections not darkening properly
+Made glossy reflections directional when rim light is directional
+New approach to the custom ramp that makes it more easily stylized
+Fixed point lights being attenuated in unexpected ways
+Various other things
+
+1.0.4a
+Fixed the spelling of the word "Outlines" in the editor
+
+1.0.4
+changed height maps to parallax occlusion (relief) maps. see: http://wiki.unity3d.com/index.php?title=ReliefSpecular#ShaderLab_-_ReliefSpecular.shader
+Minor rewrite of the updater
+
+1.0.3c
+Fixed the rim multi-slider being broken
+
+1.0.3b
+More GUI fixes for multi-editing (directional rim and tint shadows work as intended now with multiple materials selected)
+
+1.0.3a
+Hot-fix for specular with detail normal causing "whiteout"
+
+1.0.3
+Fixed transparency queue override
+
+1.0.2
+Complete rewrite of outline code
+
+1.0.1c (last iteration of 1.0.1 I promise)
+GUI/Editor tweaks
+This update also contains the updated updater script so be sure to update to this one!
+
+1.0.1b
+Hot-fix for multi-editing some properties setting the value to first material selected.
+There is now a "ChangeLog.txt" file in the base folder with a copy of these changes.
+
+1.0.1a
+Hot-fix for single color ambient lighting turning shader completely black
+
+1.0.1
+Changed how indirect diffuse is handled. (http://tinyurl.com/y2gvan3s)
+
+1.0.0:
+Added Outlines
+Added Custom Specular options
+Added Custom Rim options
+Cleaned up UI
+Added Directional Rim button
+Added Outline Stencil value randomizer
