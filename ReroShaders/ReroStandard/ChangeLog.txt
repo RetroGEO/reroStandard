@@ -1,5 +1,9 @@
 Changelog:
 
+1.0.7.b hotfix2
+Fixed outline code errors with Unity fog.
+Fixed "Inconsistent line endings" warning.
+
 1.0.7.b
 Stereo corrected stylized specular.
 Fixed updater.

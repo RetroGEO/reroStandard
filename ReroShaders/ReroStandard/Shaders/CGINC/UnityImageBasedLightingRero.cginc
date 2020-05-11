@@ -239,18 +239,18 @@ void IntegrateLambertDiffuseIBLRef( out float3 diffuseLighting,
 
         if (NdotL > 0.0f)
         {
-            half4 rgbm = 0;
-			if(_UseProbe == 1)
+            half4 rgbm;
+			if(_UseProbe)
 			{
 				rgbm = UNITY_SAMPLE_TEXCUBE_LOD(tex, R, mip);
-				if(all(rgbm.a)==0)
+				if(!any(rgbm))
 				rgbm = texCUBElod(_Cube, half4(R, mip));
 			}
 			else
 			{rgbm = texCUBElod(_Cube, half4(R, mip));}
             rgbm *= wBrightness;
-            half3 val = 0;
-			if(all(rgbm.a)==0 || _UseProbe == 0)
+            half3 val;
+			if(!any(rgbm) || !_UseProbe)
 			{val = DecodeHDR(rgbm, _Cube_HDR);}
 			else
 			val = DecodeHDR(rgbm, texHdrParam);
@@ -297,18 +297,18 @@ void IntegrateDisneyDiffuseIBLRef(  out float3 diffuseLighting,
 
         if (NdotL > 0.0f)
         {
-            half4 rgbm = 0;
-			if(_UseProbe == 1)
+            half4 rgbm;
+			if(_UseProbe)
 			{
 				rgbm = UNITY_SAMPLE_TEXCUBE_LOD(tex, R, mip);
-				if(all(rgbm.a)==0)
+				if(!any(rgbm))
 				rgbm = texCUBElod(_Cube, half4(R, mip));
 			}
 			else
 			{rgbm = texCUBElod(_Cube, half4(R, mip));}
             rgbm *= wBrightness;
-            half3 val = 0;
-			if(all(rgbm.a)==0 || _UseProbe == 0)
+            half3 val;
+			if(!any(rgbm) || !_UseProbe)
 			{val = DecodeHDR(rgbm, _Cube_HDR);}
 			else
 			val = DecodeHDR(rgbm, texHdrParam);
@@ -368,18 +368,18 @@ void IntegrateSpecularGGXIBLRef(out float3 specularLighting,
             // Fresnel component is apply here as describe in ImportanceSampleGGX function
             float3 FweightOverPdf = FresnelLerp(f0, f90, VdotH) * weightOverPdf;
 
-            half4 rgbm = 0;
-			if(_UseProbe == 1)
+            half4 rgbm;
+			if(_UseProbe)
 			{
 				rgbm = UNITY_SAMPLE_TEXCUBE_LOD(tex, R, mip);
-				if(all(rgbm.a)==0)
+				if(!any(rgbm))
 				rgbm = texCUBElod(_Cube, half4(R, mip));
 			}
 			else
 			{rgbm = texCUBElod(_Cube, half4(R, mip));}
             rgbm *= wBrightness;
-            half3 val = 0;
-			if(all(rgbm.a)==0 || _UseProbe == 0)
+            half3 val;
+			if(!any(rgbm) || !_UseProbe)
 			{val = DecodeHDR(rgbm, _Cube_HDR);}
 			else
 			val = DecodeHDR(rgbm, texHdrParam);
@@ -520,11 +520,11 @@ float4 IntegrateLD( UNITY_ARGS_TEXCUBE(tex),
         if (NdotL > 0.0f)
         {
             // No rgbm format here, only fp16
-            half4 val = 0;
-			if(_UseProbe == 1)
+            half4 val;
+			if(_UseProbe)
 			{
 				val = UNITY_SAMPLE_TEXCUBE_LOD(tex, R, mip);
-				if(all(val.a)==0)
+				if(!any(val))
 				val = texCUBElod(_Cube, half4(R, mip));
 			}
 			else
@@ -609,7 +609,7 @@ half3 Unity_GlossyEnvironment (UNITY_ARGS_TEXCUBE(tex), half4 hdr, Unity_GlossyE
     half3 skycolor;
 
     UNITY_BRANCH
-	if(_UseProbe == 1)
+	if(_UseProbe)
 	{
 		rgbm = UNITY_SAMPLE_TEXCUBE_LOD(tex, R, mip);
         skycolor = DecodeHDR(rgbm, hdr);

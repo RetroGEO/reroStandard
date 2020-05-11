@@ -341,15 +341,17 @@ Shader "Hidden/.Rero/Rero Standard/Rero Standard (Specular Setup) Transparent"
 				perp = normalize(perp) * thisWidth;
 				float4 v1 = start.pos-para;
 				float4 v2 = end.pos+para;
-				g2f OUT;
+				g2f OUT = (g2f)0;
 				OUT.pos = v1-perp;
 				OUT.uv = start.uv;
 				OUT.viewTan = start.viewTan;
 				OUT.normals = start.normals;
 				OUT.color = start.color;
+                UNITY_TRANSFER_FOG(OUT, OUT.pos);
 				triStream.Append(OUT);
 				
 				OUT.pos = v1+perp;
+                UNITY_TRANSFER_FOG(OUT, OUT.pos);
 				triStream.Append(OUT);
 				
 				OUT.pos = v2-perp;
@@ -357,6 +359,7 @@ Shader "Hidden/.Rero/Rero Standard/Rero Standard (Specular Setup) Transparent"
 				OUT.viewTan = end.viewTan;
 				OUT.normals = end.normals;
 				OUT.color = end.color;
+                UNITY_TRANSFER_FOG(OUT, OUT.pos);
 				triStream.Append(OUT);
 				
 				OUT.pos = v2+perp;
@@ -364,6 +367,7 @@ Shader "Hidden/.Rero/Rero Standard/Rero Standard (Specular Setup) Transparent"
 				OUT.viewTan = end.viewTan;
 				OUT.normals = end.normals;
 				OUT.color = end.color;
+                UNITY_TRANSFER_FOG(OUT, OUT.pos);
 				triStream.Append(OUT);
 			}
 			
@@ -390,7 +394,7 @@ Shader "Hidden/.Rero/Rero Standard/Rero Standard (Specular Setup) Transparent"
 				float3 brightness = ShadeSH9(float4(0,0,0,1)) + _LightColor0;
 				float worldBrightness = saturate((brightness.r + brightness.g + brightness.b)/3);
 				IN.color.rgb *= clamp(0, 1, worldBrightness * 100);
-				UNITY_APPLY_FOG( i.fogCoord, i.color );
+				UNITY_APPLY_FOG( IN.fogCoord, IN.color );
 				
 				return IN.color;
 			}

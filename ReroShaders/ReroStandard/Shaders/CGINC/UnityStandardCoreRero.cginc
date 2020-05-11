@@ -399,7 +399,7 @@ VertexOutputForwardBase vertForwardBase (VertexInput v)
 
     float3 camerpos; 
     o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
-    if (_StylizeSpecular == 1){
+    if (_StylizeSpecular){
     #if UNITY_SINGLE_PASS_STEREO
     camerpos = float3((unity_StereoWorldSpaceCameraPos[0] + unity_StereoWorldSpaceCameraPos[1]) * .5); 
     #else

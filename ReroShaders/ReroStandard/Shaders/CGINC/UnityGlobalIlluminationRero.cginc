@@ -175,8 +175,9 @@ inline UnityGI UnityGI_Base(UnityGIInput data, half occlusion, half3 normalWorld
     #endif
     float nShadow = pow(1-shadow, 5);
     shadow = saturate(shadow + (1-nShadow));
+    
 	UNITY_BRANCH
-	if (_StylizeRamp == 0) shadow = data.atten;
+	if (!_StylizeRamp) shadow = data.atten;
     o_gi.light.color *= shadow;
 
     UNITY_BRANCH
@@ -194,7 +195,7 @@ inline UnityGI UnityGI_Base(UnityGIInput data, half occlusion, half3 normalWorld
     #if !defined(POINT) && !defined(SPOT) && !defined(VERTEXLIGHT_ON)
             if (length(unity_SHAr.xyz * unity_SHAr.w + unity_SHAg.xyz * unity_SHAg.w + unity_SHAb.xyz * unity_SHAb.w) == 0 && length(o_gi.light.dir) < 0.1)
             {
-                o_gi.light.dir = normalize(_FakeLight);
+                o_gi.light.dir = _FakeLight;
             }
     #endif
 
@@ -204,15 +205,15 @@ inline UnityGI UnityGI_Base(UnityGIInput data, half occlusion, half3 normalWorld
     #if defined(SAMPLE_SH_NONLINEAR)
 		float3 L0 = float3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
 		float3 nonLinearSH = float3(0,0,0); 
-        float3 nonImpLight = Shade4PointLights (unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0,
+        float3 nonImpLight = Shade4PointLights(unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0,
                                                 unity_LightColor[0].rgb, unity_LightColor[1].rgb, unity_LightColor[2].rgb, unity_LightColor[3].rgb,
                                                 unity_4LightAtten0, data.worldPos, normalWorld);
 		nonLinearSH.r = shEvaluateDiffuseL1Geomerics(L0.r, unity_SHAr.xyz, normalWorld);
 		nonLinearSH.g = shEvaluateDiffuseL1Geomerics(L0.g, unity_SHAg.xyz, normalWorld);
 		nonLinearSH.b = shEvaluateDiffuseL1Geomerics(L0.b, unity_SHAb.xyz, normalWorld);
-		o_gi.indirect.diffuse = max(0, nonLinearSH) + nonImpLight;
+		o_gi.indirect.diffuse = max(0, nonLinearSH);
 		UNITY_BRANCH
-        if (_StylizeRamp == 1) o_gi.indirect.diffuse = ShadeSH9(float4(0, 0, 0, 1)) + nonImpLight;
+        if (_StylizeRamp) o_gi.indirect.diffuse = ShadeSH9(float4(normalWorld * _RampSmooth, 1));
 	#endif
 
     //#if defined(UNITY_SHOULD_SAMPLE_SH)
@@ -258,8 +259,10 @@ inline UnityGI UnityGI_Base(UnityGIInput data, half occlusion, half3 normalWorld
     #endif
 
     o_gi.indirect.diffuse *= occlusion;
+    o_gi.indirect.diffuse += max(0, nonImpLight);
     UNITY_BRANCH
     if (any(_WorldSpaceLightPos0) == 0) o_gi.light.color += o_gi.indirect.diffuse;
+    
     return o_gi;
 }
 

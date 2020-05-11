@@ -34,7 +34,7 @@ half4 BRDF_Unity_Rero(half3 diffColor, half3 specColor, half oneMinusReflectivit
 
 	half nl = smootherstep(0.0, _RampSmooth, (dot(normal, light.dir) - _RampThreshold));
 	UNITY_BRANCH
-	if (_StylizeRamp == 0)nl = saturate(dot(normal, light.dir));
+	if (!_StylizeRamp)nl = saturate(dot(normal, light.dir));
     float nh = saturate(dot(normal, halfDir));
 
     half lv = saturate(dot(light.dir, viewDir));
@@ -84,29 +84,29 @@ half4 BRDF_Unity_Rero(half3 diffColor, half3 specColor, half oneMinusReflectivit
 	half3 specularFinalColor = light.color * specularTerm;
 	
 	UNITY_BRANCH
-	if (_StylizeSpecular == 1)	
+	if (_StylizeSpecular)	
 	{
 		specularTerm = smootherstep(.9999 - _RampSmooth, 1, specularTerm + roughness);
 		specularFinalColor = (light.color * _specularBrightness) * specularTerm;
 	}
 	
 	UNITY_BRANCH
-	if (_StylizeRim == 1)nv = smootherstep(_RimMin,_RimMax,nv);
+	if (_StylizeRim)nv = smootherstep(_RimMin,_RimMax,nv);
 	
 	half lightAdj = 1;
 	UNITY_BRANCH
-	if (_LitRim == 1 && _StylizeRim == 1)lightAdj = saturate(dot(normal, light.dir)) + .1;
+	if (_LitRim && _StylizeRim)lightAdj = saturate(dot(normal, light.dir)) + .3;
     half grazingTerm = saturate(smoothness + (1 - oneMinusReflectivity));
 	UNITY_BRANCH
-	if(_ShadowToggle == 0)_ShadowColor.rgb = 1;
+	if(!_ShadowToggle)_ShadowColor.rgb = 1;
 	gi.diffuse *= float4(_ShadowColor.rgb, 0);
 
     half3 directLighting = light.color;
-    if (_StylizeRamp == 1)
+    if (_StylizeRamp)
     {
         float3 lightCol;
-        float3 magic = saturate(ShadeSH9(unity_SHAr * 0.3 + unity_SHAg * 0.59 + unity_SHAb * 0.11));
-        float3 normalLight = saturate(light.color.rgb);
+        float3 magic = saturate(ShadeSH9(normalize(unity_SHAr + unity_SHAg + unity_SHAb)));
+        float3 normalLight = saturate(light.color);
         lightCol = magic + normalLight;
         directLighting = lerp(GetSHLength(), lightCol, .75);
     }
