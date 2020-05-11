@@ -181,7 +181,7 @@ inline UnityGI UnityGI_Base(UnityGIInput data, half occlusion, half3 normalWorld
     o_gi.light.color *= shadow;
 
     UNITY_BRANCH
-    half3 probeLightDir = unity_SHAr.xyz + unity_SHAg.xyz + unity_SHAb.xyz;
+    half3 probeLightDir = normalize(mul(unity_ColorSpaceLuminance.rgb, half3x3(unity_SHAr.xyz, unity_SHAg.xyz, unity_SHAb.xyz)));
     if (any(_WorldSpaceLightPos0) == 0)
     {
         o_gi.light.dir += probeLightDir;
