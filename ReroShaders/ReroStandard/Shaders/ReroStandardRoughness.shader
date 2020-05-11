@@ -1,6 +1,6 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Hidden/.Rero/Rero Standard/Rero Standard (Metallic Setup) Opaque"
+Shader ".Rero/Rero Standard/Rero Standard (Metallic Setup)"
 {
     Properties
     {
@@ -101,8 +101,8 @@ Shader "Hidden/.Rero/Rero Standard/Rero Standard (Metallic Setup) Opaque"
             Name "FORWARD"
             Tags { "LightMode" = "ForwardBase" }
 
-            Blend One Zero
-			ZWrite On
+            Blend [_SrcBlend] [_DstBlend]
+			ZWrite [_ZWrite]
 
             CGPROGRAM
             #pragma target 3.5

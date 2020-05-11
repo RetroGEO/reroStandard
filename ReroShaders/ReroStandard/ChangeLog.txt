@@ -1,5 +1,9 @@
 Changelog:
 
+1.0.8
+Modified to change the render queue instead of switching shaders.
+Fixed multi-editing.
+
 1.0.7.b hotfix2
 Fixed outline code errors with Unity fog.
 Fixed "Inconsistent line endings" warning.
