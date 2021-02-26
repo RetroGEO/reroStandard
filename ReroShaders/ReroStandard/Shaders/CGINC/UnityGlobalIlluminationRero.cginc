@@ -213,7 +213,7 @@ inline UnityGI UnityGI_Base(UnityGIInput data, half occlusion, half3 normalWorld
 		nonLinearSH.b = shEvaluateDiffuseL1Geomerics(L0.b, unity_SHAb.xyz, normalWorld);
 		o_gi.indirect.diffuse = max(0, nonLinearSH);
 		UNITY_BRANCH
-        if (_StylizeRamp) o_gi.indirect.diffuse = ShadeSH9(float4(normalWorld * _RampSmooth, 1));
+        if (_StylizeRamp || nonLinearSH==1,1,1) o_gi.indirect.diffuse = ShadeSH9(float4(normalWorld * _RampSmooth, 1));
 	#endif
 
     //#if defined(UNITY_SHOULD_SAMPLE_SH)

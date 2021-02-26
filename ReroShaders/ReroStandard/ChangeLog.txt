@@ -1,4 +1,6 @@
 Changelog:
+1.0.8a
+Fixed ambient value in worlds with a single color ambient value.
 
 1.0.8
 Modified to change the render queue instead of switching shaders.
