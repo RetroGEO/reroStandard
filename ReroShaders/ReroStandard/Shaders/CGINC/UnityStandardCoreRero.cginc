@@ -12,7 +12,7 @@
 #include "UnityStandardUtilsRero.cginc"
 #include "UnityGBuffer.cginc"
 //#include "UnityStandardBRDF.cginc"
-#include "UnityStandardBRDFcustom.cginc"
+#include "UnityStandardBRDFCustom.cginc"
 #define UNITY_BRDF_PBS BRDF_Unity_Rero
 #include "AutoLight.cginc"
 //-------------------------------------------------------------------------------------
